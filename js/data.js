@@ -245,7 +245,7 @@ window.SweetShop = window.SweetShop || {};
     { src: "assets/images/Friendly Service.png", w: 1448, h: 1086, category: "shop", caption: "Friendly service at the Madhuram counter" },
     { src: "assets/images/our story.png", w: 1122, h: 1402, category: "preparation", caption: "Shaping laddus by hand in our kitchen" },
     { src: "assets/images/Traditional Recipes.png", w: 2243, h: 701, category: "products", caption: "Traditional recipes and freshly made laddus" },
-    { src: "assets/images/Careful preparation.png", w: 1699, h: 926, category: "preparation", caption: "Slow cooking in small batches" },
+    { src: "assets/images/careful-preparation.png", w: 1699, h: 926, category: "preparation", caption: "Slow cooking in small batches" },
     { src: "assets/images/Quality Ingredients.png", w: 1330, h: 1182, category: "ingredients", caption: "Ghee, gram flour, sugar, milk, cardamom and almonds" }
   ];
   const galleryCategories = [
