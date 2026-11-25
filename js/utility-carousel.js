@@ -1,27 +1,58 @@
 /**
  * Utility Bar Carousel for Mobile
- * Auto-rotates through contact info items with manual swipe support
+ * Auto-rotates through contact info items with smooth manual swipe support
+ * Each slide shows ONE piece of information: Phone, Email, or Hours
  */
 
 (function() {
   'use strict';
 
-  // Only run on mobile/tablet screens
-  if (window.innerWidth >= 768) return;
+  // Configuration
+  const CONFIG = {
+    ROTATION_INTERVAL: 6000,     // 6 seconds per slide
+    SWIPE_THRESHOLD: 30,         // Minimum pixels to trigger swipe
+    TRANSITION_DURATION: 500,    // Animation duration in ms
+    MIN_SCREEN_WIDTH: 768        // Disable carousel on screens >= 768px
+  };
 
+  // Check if mobile/tablet
+  function isMobile() {
+    return window.innerWidth < CONFIG.MIN_SCREEN_WIDTH;
+  }
+
+  if (!isMobile()) return;
+
+  // DOM Elements
   const utilityBar = document.querySelector('.utility-bar');
+  const utilityInner = document.querySelector('.utility-inner');
   const utilityList = document.querySelector('.utility-list');
   const utilityItems = document.querySelectorAll('.utility-list > li');
   
   if (!utilityBar || !utilityList || utilityItems.length === 0) return;
 
-  let currentIndex = 0;
-  let autoRotateInterval;
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
-  const ROTATION_INTERVAL = 6000; // 6 seconds
-  const SWIPE_THRESHOLD = 50; // pixels
+  // State
+  let state = {
+    currentIndex: 0,
+    autoRotateInterval: null,
+    isDragging: false,
+    startX: 0,
+    currentX: 0,
+    startTime: 0,
+    isTransitioning: false
+  };
+
+  // Create carousel wrapper for better control
+  const carouselWrapper = document.createElement('div');
+  carouselWrapper.className = 'utility-carousel-wrapper';
+  carouselWrapper.style.cssText = `
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  `;
+
+  // Wrap the utility list
+  utilityInner.insertBefore(carouselWrapper, utilityList);
+  carouselWrapper.appendChild(utilityList);
 
   // Create indicators container
   const indicatorsContainer = document.createElement('div');
@@ -30,77 +61,87 @@
   indicatorsContainer.setAttribute('aria-label', 'Contact information carousel');
 
   // Create indicator buttons
-  utilityItems.forEach((_, index) => {
+  const indicators = [];
+  utilityItems.forEach((item, index) => {
     const indicator = document.createElement('button');
     indicator.className = 'utility-indicator';
     indicator.setAttribute('role', 'tab');
-    indicator.setAttribute('aria-label', `Show item ${index + 1}`);
+    indicator.setAttribute('aria-label', `Show contact ${index + 1} of ${utilityItems.length}`);
     indicator.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    indicator.setAttribute('tabindex', index === 0 ? '0' : '-1');
     if (index === 0) indicator.classList.add('active');
     
-    indicator.addEventListener('click', () => {
+    indicator.addEventListener('click', (e) => {
+      e.preventDefault();
       goToSlide(index);
       resetAutoRotate();
     });
     
+    indicators.push(indicator);
     indicatorsContainer.appendChild(indicator);
   });
 
-  utilityBar.style.position = 'relative';
   utilityBar.appendChild(indicatorsContainer);
 
-  // Update slide position
+  // Update slide position with smooth animation
   function updateSlide(instant = false) {
-    const offset = -currentIndex * 100;
-    utilityList.style.transition = instant ? 'none' : 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-    utilityList.style.transform = `translateX(${offset}%)`;
+    if (state.isTransitioning && !instant) return;
+
+    state.isTransitioning = !instant;
+    
+    const offset = -state.currentIndex * 100;
+    utilityList.style.transition = instant 
+      ? 'none' 
+      : `transform ${CONFIG.TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+    utilityList.style.transform = `translate3d(${offset}%, 0, 0)`;
     
     // Update indicators
-    document.querySelectorAll('.utility-indicator').forEach((indicator, index) => {
-      if (index === currentIndex) {
-        indicator.classList.add('active');
-        indicator.setAttribute('aria-selected', 'true');
-      } else {
-        indicator.classList.remove('active');
-        indicator.setAttribute('aria-selected', 'false');
-      }
+    indicators.forEach((indicator, index) => {
+      const isActive = index === state.currentIndex;
+      indicator.classList.toggle('active', isActive);
+      indicator.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      indicator.setAttribute('tabindex', isActive ? '0' : '-1');
     });
 
-    // Update ARIA live region for screen readers
-    const currentItem = utilityItems[currentIndex];
-    if (currentItem) {
-      utilityBar.setAttribute('aria-live', 'polite');
-      utilityBar.setAttribute('aria-atomic', 'true');
+    // Clear transitioning flag after animation
+    if (!instant) {
+      setTimeout(() => {
+        state.isTransitioning = false;
+      }, CONFIG.TRANSITION_DURATION);
     }
   }
 
-  // Go to specific slide
+  // Navigate to specific slide
   function goToSlide(index) {
-    currentIndex = index;
-    if (currentIndex < 0) currentIndex = utilityItems.length - 1;
-    if (currentIndex >= utilityItems.length) currentIndex = 0;
+    if (state.isTransitioning) return;
+    
+    // Wrap around
+    if (index < 0) index = utilityItems.length - 1;
+    if (index >= utilityItems.length) index = 0;
+    
+    state.currentIndex = index;
     updateSlide();
   }
 
-  // Next slide
+  // Navigation functions
   function nextSlide() {
-    goToSlide(currentIndex + 1);
+    goToSlide(state.currentIndex + 1);
   }
 
-  // Previous slide
   function prevSlide() {
-    goToSlide(currentIndex - 1);
+    goToSlide(state.currentIndex - 1);
   }
 
   // Auto-rotate functionality
   function startAutoRotate() {
-    autoRotateInterval = setInterval(nextSlide, ROTATION_INTERVAL);
+    stopAutoRotate(); // Clear any existing interval
+    state.autoRotateInterval = setInterval(nextSlide, CONFIG.ROTATION_INTERVAL);
   }
 
   function stopAutoRotate() {
-    if (autoRotateInterval) {
-      clearInterval(autoRotateInterval);
-      autoRotateInterval = null;
+    if (state.autoRotateInterval) {
+      clearInterval(state.autoRotateInterval);
+      state.autoRotateInterval = null;
     }
   }
 
@@ -109,111 +150,167 @@
     startAutoRotate();
   }
 
-  // Touch/Mouse events for manual swiping
-  function handleStart(e) {
-    isDragging = true;
-    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-    currentX = startX;
+  // Touch/Swipe event handlers
+  function handleTouchStart(e) {
+    if (state.isTransitioning) return;
+    
+    state.isDragging = true;
+    state.startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    state.currentX = state.startX;
+    state.startTime = Date.now();
+    
     stopAutoRotate();
     utilityList.style.transition = 'none';
+    carouselWrapper.style.cursor = 'grabbing';
   }
 
-  function handleMove(e) {
-    if (!isDragging) return;
+  function handleTouchMove(e) {
+    if (!state.isDragging) return;
     
-    e.preventDefault();
-    currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-    const diff = currentX - startX;
-    const offset = -currentIndex * 100 + (diff / utilityList.offsetWidth) * 100;
-    utilityList.style.transform = `translateX(${offset}%)`;
+    // Prevent default to stop page scrolling
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    
+    state.currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    const diff = state.currentX - state.startX;
+    const percentage = (diff / carouselWrapper.offsetWidth) * 100;
+    const offset = -state.currentIndex * 100 + percentage;
+    
+    // Apply transform with boundary checking
+    const maxOffset = 0;
+    const minOffset = -(utilityItems.length - 1) * 100;
+    const clampedOffset = Math.max(minOffset, Math.min(maxOffset, offset));
+    
+    utilityList.style.transform = `translate3d(${clampedOffset}%, 0, 0)`;
   }
 
-  function handleEnd() {
-    if (!isDragging) return;
+  function handleTouchEnd(e) {
+    if (!state.isDragging) return;
     
-    isDragging = false;
-    const diff = currentX - startX;
+    state.isDragging = false;
+    carouselWrapper.style.cursor = 'grab';
     
-    if (Math.abs(diff) > SWIPE_THRESHOLD) {
+    const diff = state.currentX - state.startX;
+    const timeDiff = Date.now() - state.startTime;
+    const velocity = Math.abs(diff) / timeDiff; // pixels per ms
+    
+    // Determine if swipe was intentional
+    const isSwipe = Math.abs(diff) > CONFIG.SWIPE_THRESHOLD || velocity > 0.3;
+    
+    if (isSwipe) {
       if (diff > 0) {
         prevSlide();
       } else {
         nextSlide();
       }
     } else {
+      // Snap back to current slide
       updateSlide();
     }
     
     resetAutoRotate();
   }
 
-  // Add event listeners
-  utilityList.addEventListener('touchstart', handleStart, { passive: false });
-  utilityList.addEventListener('touchmove', handleMove, { passive: false });
-  utilityList.addEventListener('touchend', handleEnd);
-  
-  utilityList.addEventListener('mousedown', handleStart);
-  utilityList.addEventListener('mousemove', handleMove);
-  utilityList.addEventListener('mouseup', handleEnd);
-  utilityList.addEventListener('mouseleave', () => {
-    if (isDragging) handleEnd();
+  // Event listeners - Touch events
+  carouselWrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+  carouselWrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
+  carouselWrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+  carouselWrapper.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+
+  // Event listeners - Mouse events (for testing on desktop)
+  carouselWrapper.addEventListener('mousedown', handleTouchStart);
+  carouselWrapper.addEventListener('mousemove', handleTouchMove);
+  carouselWrapper.addEventListener('mouseup', handleTouchEnd);
+  carouselWrapper.addEventListener('mouseleave', (e) => {
+    if (state.isDragging) {
+      handleTouchEnd(e);
+    }
   });
 
+  // Prevent click on links during drag
+  utilityList.addEventListener('click', (e) => {
+    if (Math.abs(state.currentX - state.startX) > 10) {
+      e.preventDefault();
+    }
+  }, true);
+
   // Pause on hover (desktop)
-  utilityBar.addEventListener('mouseenter', stopAutoRotate);
-  utilityBar.addEventListener('mouseleave', startAutoRotate);
+  utilityBar.addEventListener('mouseenter', () => {
+    if (isMobile()) stopAutoRotate();
+  });
+  
+  utilityBar.addEventListener('mouseleave', () => {
+    if (isMobile()) startAutoRotate();
+  });
 
   // Pause when page is hidden
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopAutoRotate();
-    } else {
+    } else if (isMobile()) {
       startAutoRotate();
     }
   });
 
   // Keyboard navigation
   indicatorsContainer.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
       prevSlide();
       resetAutoRotate();
-    } else if (e.key === 'ArrowRight') {
+      indicators[state.currentIndex].focus();
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
       nextSlide();
       resetAutoRotate();
+      indicators[state.currentIndex].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goToSlide(0);
+      resetAutoRotate();
+      indicators[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goToSlide(utilityItems.length - 1);
+      resetAutoRotate();
+      indicators[utilityItems.length - 1].focus();
     }
   });
-
-  // Initialize
-  updateSlide(true);
-  startAutoRotate();
 
   // Handle window resize
   let resizeTimeout;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      if (window.innerWidth >= 768) {
-        // Switch back to desktop view
+      if (!isMobile()) {
+        // Switch to desktop view
         stopAutoRotate();
         utilityList.style.transform = 'none';
         utilityList.style.transition = 'none';
         indicatorsContainer.style.display = 'none';
+        carouselWrapper.style.overflow = 'visible';
       } else {
         // Ensure mobile view is correct
         indicatorsContainer.style.display = 'flex';
+        carouselWrapper.style.overflow = 'hidden';
         updateSlide(true);
-        if (!autoRotateInterval) startAutoRotate();
+        if (!state.autoRotateInterval) startAutoRotate();
       }
     }, 250);
   });
 
-  // Add CSS for better touch interaction
-  utilityList.style.cursor = 'grab';
-  utilityList.addEventListener('mousedown', () => {
-    utilityList.style.cursor = 'grabbing';
-  });
-  utilityList.addEventListener('mouseup', () => {
-    utilityList.style.cursor = 'grab';
-  });
+  // Cursor styling
+  carouselWrapper.style.cursor = 'grab';
+  carouselWrapper.style.userSelect = 'none';
+  carouselWrapper.style.WebkitUserSelect = 'none';
+  carouselWrapper.style.touchAction = 'pan-y pinch-zoom';
+
+  // Initialize
+  updateSlide(true);
+  startAutoRotate();
+
+  // Log for debugging (remove in production)
+  console.log(`📱 Utility Carousel initialized with ${utilityItems.length} slides`);
 
 })();
