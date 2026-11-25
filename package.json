@@ -5,6 +5,6 @@
   "description": "Madhuram Sweets & Snacks website and menu catalogue",
   "scripts": {
     "test": "node --test tests/menu-redesign.test.js",
-    "start": "node server.js"
+    "start": "node local-server.cjs"
   }
 }
