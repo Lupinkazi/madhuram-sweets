@@ -1,0 +1,87 @@
+/* =================================================================
+   Motion — every spatial animation is opt-in via
+   prefers-reduced-motion: no-preference. Content is never hidden
+   unless the matching animation can run.
+   Durations stay within 160-650 ms and use the --dur-* tokens and
+   --ease from style.css (design.md section 10).
+   ================================================================= */
+
+@keyframes reveal-up {
+  from { opacity: 0; translate: 0 1.5rem; }
+}
+@keyframes hero-in {
+  from { opacity: 0; translate: 0 1rem; }
+}
+@keyframes hero-shine {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hero-spin {
+  to { rotate: 360deg; }
+}
+@keyframes hero-pulse {
+  50% { scale: 1.08; }
+}
+
+/* Catalog grid: named so filter changes can cross-fade (products.js) */
+[data-catalogue-grid] { view-transition-name: catalogue-grid; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  /* Cross-document page transitions (progressive enhancement) */
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: 220ms var(--ease) both vt-fade-out; }
+  ::view-transition-new(root) { animation: 320ms var(--ease) both vt-fade-in; }
+
+  /* Same-document catalog filter transition */
+  ::view-transition-group(catalogue-grid) { animation-duration: 240ms; animation-timing-function: var(--ease); }
+
+  /* Hero entrance on load */
+  .hero-copy > * { animation: hero-in var(--dur-reveal) var(--ease) both; }
+  .hero-copy > :nth-child(2) { animation-delay: 0.08s; }
+  .hero-copy > :nth-child(3) { animation-delay: 0.16s; }
+  .hero-copy > :nth-child(4) { animation-delay: 0.24s; }
+  .hero-copy > :nth-child(5) { animation-delay: 0.32s; }
+  .hero-badge { animation: hero-in var(--dur-reveal) 0.4s var(--ease) both; }
+  /* Hero ambient loops: slow shimmer on the first line, rotating badge */
+  .hero-line--shine { animation: hero-shine 8s ease-in-out infinite; }
+  .hero-badge-text { animation: hero-spin 20s linear infinite; }
+  .hero-badge-ring { animation: hero-spin 6s linear infinite reverse, hero-pulse 3s ease-in-out infinite; }
+
+  /* Native scroll-driven reveal */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 6%) entry calc(65% + var(--i, 0) * 6%);
+    }
+  }
+
+  /* IntersectionObserver fallback: main.js adds .js-reveal to <html> only
+     when scroll-driven animations are unsupported. */
+  .js-reveal .reveal:not(.is-visible) { opacity: 0; translate: 0 1.5rem; }
+  .js-reveal .reveal {
+    transition: opacity var(--dur-reveal) var(--ease), translate var(--dur-reveal) var(--ease);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  /* Popover menus */
+  .site-menu:is(:popover-open, .\:popover-open),
+  .site-header.is-wide .dropdown-list:is(:popover-open, .\:popover-open) {
+    animation: menu-in var(--dur-menu) var(--ease) both;
+  }
+
+  /* Dialogs */
+  dialog[open] { animation: dialog-in var(--dur-card) var(--ease) both; }
+  dialog[open]::backdrop { animation: backdrop-in var(--dur-card) var(--ease) both; }
+
+  .toast:not(:empty) { animation: toast-in var(--dur-card) var(--ease) both; }
+}
+
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; translate: 0 0.5rem; } }
+@keyframes menu-in { from { opacity: 0; translate: 0 -0.35rem; } }
+@keyframes dialog-in { from { opacity: 0; translate: 0 1rem; scale: 0.98; } }
+@keyframes backdrop-in { from { opacity: 0; } }
+@keyframes toast-in { from { opacity: 0; translate: -50% 0.75rem; } }

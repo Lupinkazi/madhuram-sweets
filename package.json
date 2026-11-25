@@ -1,0 +1,10 @@
+{
+  "name": "madhuram-sweets-snacks",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Madhuram Sweets & Snacks website and menu catalogue",
+  "scripts": {
+    "test": "node --test tests/menu-redesign.test.js",
+    "start": "node server.js"
+  }
+}

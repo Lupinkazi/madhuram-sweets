@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #2d4a3e; padding: 50px; }
+        .social-list { display: flex; gap: 1rem; list-style: none; padding: 0; }
+        .social-list a { 
+            display: grid; 
+            place-items: center; 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            border: 1px solid rgba(255, 246, 234, 0.25); 
+            background: rgba(255, 246, 234, 0.06); 
+            color: #FFF6EA;
+        }
+        .social-list svg { width: 1.1rem; height: 1.1rem; }
+        .social-list a[data-social="tiktok"] svg path { fill: #FFF6EA; }
+    </style>
+</head>
+<body>
+    <ul class="social-list">
+        <li><a data-social="tiktok" href="#" aria-label="TikTok"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M448 209.9a210.1 210.1 0 0 1-122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></a></li>
+        <li><a data-social="facebook" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a></li>
+        <li><a data-social="youtube" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg></a></li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 900" width="1200" height="900">
+  <title>Demo illustration: bowls of sev, dal moth and roasted cashews</title>
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.25" r="0.95"><stop offset="0" stop-color="#F5EBDA"/><stop offset="1" stop-color="#DCC7A4"/></radialGradient>
+    <linearGradient id="bowl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A7653"/><stop offset="1" stop-color="#24543A"/></linearGradient>
+    <pattern id="sev" width="40" height="22" patternUnits="userSpaceOnUse">
+      <path d="M2 6q10-6 18 0t18 0" fill="none" stroke="#E8B44F" stroke-width="4" stroke-linecap="round"/>
+      <path d="M0 16q10-6 20 0t20 0" fill="none" stroke="#C98A2B" stroke-width="4" stroke-linecap="round"/>
+    </pattern>
+    <pattern id="moth" width="22" height="18" patternUnits="userSpaceOnUse">
+      <ellipse cx="6" cy="6" rx="4" ry="3" fill="#B98940"/><ellipse cx="16" cy="12" rx="4" ry="3" fill="#8C5A22"/><path d="M2 14l8-2" stroke="#E8B44F" stroke-width="3" stroke-linecap="round"/><circle cx="17" cy="4" r="2" fill="#71845A"/>
+    </pattern>
+    <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
+    <path id="cashew" d="M0 0c-16-20 4-40 24-29 11 7 5 18-4 13-9-3-13 5-7 13z" fill="#E2BE80" stroke="#B98940" stroke-width="1.5"/>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <ellipse cx="380" cy="640" rx="280" ry="50" fill="#3E2412" opacity="0.25" filter="url(#blur)"/>
+  <path d="M120 440 Q130 640 380 646 Q630 640 640 440 Z" fill="url(#bowl)"/>
+  <ellipse cx="380" cy="440" rx="262" ry="80" fill="#24543A"/>
+  <ellipse cx="380" cy="436" rx="240" ry="66" fill="url(#sev)"/>
+  <ellipse cx="840" cy="560" rx="240" ry="44" fill="#3E2412" opacity="0.25" filter="url(#blur)"/>
+  <path d="M620 380 Q630 556 840 562 Q1050 556 1060 380 Z" fill="url(#bowl)"/>
+  <ellipse cx="840" cy="380" rx="222" ry="68" fill="#24543A"/>
+  <ellipse cx="840" cy="376" rx="202" ry="56" fill="url(#moth)"/>
+  <use href="#cashew" xlink:href="#cashew" x="180" y="780"/><use href="#cashew" xlink:href="#cashew" x="250" y="800" transform="rotate(40 250 800)"/>
+  <use href="#cashew" xlink:href="#cashew" x="980" y="770" transform="rotate(-30 980 770)"/><use href="#cashew" xlink:href="#cashew" x="1060" y="740"/>
+  <use href="#cashew" xlink:href="#cashew" x="700" y="790" transform="rotate(60 700 790)"/>
+  <g stroke="#E8B44F" stroke-width="4" stroke-linecap="round"><path d="M520 760q12-6 24 0"/><path d="M560 800q10-6 22 0"/><path d="M880 820q12-6 24 0"/></g>
+  <text x="1176" y="880" text-anchor="end" font-family="Arial, sans-serif" font-size="20" fill="#5E5048">Demo illustration</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <title>Demo illustration: diyas and marigold garlands around a sweet box</title>
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.6" r="0.8"><stop offset="0" stop-color="#2E6447"/><stop offset="1" stop-color="#14301F"/></radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FFE7A8" stop-opacity="0.9"/><stop offset="1" stop-color="#F0A23A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2602C"/><stop offset="1" stop-color="#7A3416"/></linearGradient>
+    <g id="diya">
+      <circle cy="-40" r="60" fill="url(#glow)"/>
+      <path d="M0 -60c12 18 10 34 0 40-10-6-12-22 0-40z" fill="#FFD27A"/>
+      <path d="M-60 -16 Q0 40 60 -16 Z" fill="url(#clay)"/>
+      <ellipse cy="-16" rx="60" ry="10" fill="#9A4420"/>
+    </g>
+    <g id="marigold"><circle r="16" fill="#E9A02B"/><circle r="10" fill="#F2B84B"/><circle r="4" fill="#C97A1E"/></g>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <path d="M0 120 Q300 260 600 120 T1200 120" fill="none" stroke="#71845A" stroke-width="4"/>
+  <g>
+    <use href="#marigold" x="60" y="150"/><use href="#marigold" x="140" y="190"/><use href="#marigold" x="220" y="215"/><use href="#marigold" x="300" y="226"/><use href="#marigold" x="380" y="215"/><use href="#marigold" x="460" y="190"/><use href="#marigold" x="540" y="150"/>
+    <use href="#marigold" x="660" y="150"/><use href="#marigold" x="740" y="190"/><use href="#marigold" x="820" y="215"/><use href="#marigold" x="900" y="226"/><use href="#marigold" x="980" y="215"/><use href="#marigold" x="1060" y="190"/><use href="#marigold" x="1140" y="150"/>
+  </g>
+  <rect x="420" y="430" width="360" height="230" rx="14" fill="#FFF6EA"/>
+  <rect x="408" y="400" width="384" height="56" rx="12" fill="#F4EBDD"/>
+  <rect x="584" y="400" width="32" height="260" fill="#C99543"/>
+  <rect x="408" y="418" width="384" height="18" fill="#C99543"/>
+  <use href="#diya" x="220" y="700"/><use href="#diya" x="980" y="700"/><use href="#diya" x="360" y="780"/><use href="#diya" x="840" y="780"/>
+  <path d="M0 760 H1200" stroke="#C99543" stroke-opacity="0.25" stroke-width="2"/>
+  <text x="1176" y="880" text-anchor="end" font-family="Arial, sans-serif" font-size="20" fill="#FFF6EA" fill-opacity="0.6">Demo illustration</text>
+</svg>

@@ -1,0 +1,165 @@
+# Implementation Plan
+
+Tests use only Node built-ins (`node:test`, `node:assert`, `node:vm`, `node:fs`) and live in `tests/` at the workspace root, outside the served pages. Run them with `node --test tests/`. No `package.json`, dependency or build step is added. Property tests use a small seeded random generator in `tests/helpers/prng.js` (for example mulberry32) so failures are reproducible from the printed seed (`SEED=<n>`).
+
+- [ ] 1. Write bug condition exploration test
+  - **Property 1: Bug Condition** - Ghee-only catalog, content and simplified motion
+  - **CRITICAL**: This test MUST FAIL on unfixed code. Failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior. It will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate the bug exists
+  - **Scoped PBT Approach**: The bug is deterministic, so scope each property to the concrete artifacts that satisfy isBugCondition: the 8 HTML pages, `js/data.js` records, the rendered catalog, order picker and homepage collection, `css/style.css`, `css/animations.css`, `README.md`, `image.md` and root `design.md`. Use the seeded generator to sample pages, DOM text nodes, data records and URL combinations, and always include the full set at least once
+  - Create `tests/helpers/load.js`: load `js/config.js` and `js/data.js` into a `node:vm` context with a stub `window = { SweetShop: {} }`, and return `SweetShop.data`. Add a regex-based HTML scanner that extracts visible text, `<title>`, `meta[name=description]`, `og:title`, `og:description`, `alt`, `aria-label`, `data-caption` and `href` values
+  - Create `tests/helpers/dom-stub.js`: a minimal, dependency-free `document`/`localStorage`/`location`/`history` stub that is enough to run `js/main.js` helpers, `js/cart.js` and `js/products.js` in a `node:vm` context (task 2 extends it for `js/forms.js` and a stubbed `fetch`)
+  - Define `GHEE_IDS` (21 ids), `REMOVED_CATEGORIES` (`premium`, `dry-fruit`, `bengali`, `namkeen`), `OFF_OFFER_TERMS`, `nonGheeCategoryImages` and `stripBrand()` (removes "Madhuram Sweets & Snacks" and "Madhuram Sweets &amp; Snacks") exactly as in the Bug Condition section of design.md, in `tests/helpers/constants.js`
+  - Create `tests/bug-condition.test.js` asserting expectedBehavior from design.md:
+    - Data: `set(ids(data.products)) = GHEE_IDS`; every `data.categories` id starts with `ghee-`; every product's category resolves; every `signatureOrder` id is in GHEE_IDS; no `unitRules` entry names a non-ghee id; no gallery caption contains OFF_OFFER_TERMS
+    - Pages (all 8): `stripBrand(text)` contains no OFF_OFFER_TERMS and states "ghee sweets"; brand name "Madhuram Sweets & Snacks" and tagline "100% Veg" are present; no link matches `products.html?cat=` + a removed category; no `#products-menu` or `nav-dropdown` (header nav has one level); no `src` in `nonGheeCategoryImages`; placeholder images keep "demo illustration"
+    - Rendered catalog (run `js/products.js` on products.html with the DOM stub): every chip is "all" (labelled "All ghee sweets") or a ghee group with at least one product, so chip count ≤ 1 + count(nonEmptyGheeGroups); for seeded `cat`, `q` and `sort` URL combinations the grid never shows a non-ghee product and never throws; legacy `cat` values (`premium`, `ghee`, `dry-fruit`, `bengali`, `namkeen`) and an empty `cat` show all 21 ghee sweets and rewrite the URL to `products.html`; a ghee group id shows only that group
+    - Rendered order picker (run `js/cart.js` `initPicker` on order.html): every row id is in GHEE_IDS; three groups, the first open; 21 rows; count pills update on selection
+    - Rendered homepage collection (run `initSignature` on index.html): every card is a ghee sweet, and no card carries a "Signature" or bestseller tag unless the product has `signature: true`; with an empty `signatureOrder` it shows eight ghee cards
+    - Documents: `README.md`, `image.md` and root `design.md` request no content or photos for removed categories and do not list `namkeen.html`
+    - Motion: every transition or animation duration in `css/style.css` and `css/animations.css` (tokens resolved, stagger delays excluded) is 160–650 ms and uses `var(--ease)`; every hover `scale`/`transform`/`translate` on images sits inside `prefers-reduced-motion: no-preference`
+  - Add the `unitRules` edge case: in a vm copy of the unfixed `data.js` text, remove the non-ghee products but leave `unitRules`, and assert it throws `unitRules: unknown product` (confirms root cause 4; this sub-check is expected to pass on unfixed code)
+  - Run `node --test tests/bug-condition.test.js` on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct, it proves the bug exists)
+  - Document counterexamples found, for example product ids `kaju-katli`, `shahi-rasmalai`, `dal-moth`; category ids `premium`, `namkeen`; six catalog chips; five picker groups with 83 rows; homepage cards Shahi Rasmalai and Bahubali Sandwich; link `products.html?cat=namkeen`; the products.html meta description "Browse premium sweets, ghee sweets, dry fruit sweets, Bengali sweets and namkeen…"; alt "Kaju katli on a silver tray"; duration `hero-photo-in 1.4s`; unguarded `.gallery-thumb:hover img { scale: 1.04 }`
+  - Mark task complete when the test is written, run, and the failure is documented
+  - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10_
+
+- [x] 2. Write preservation property tests (BEFORE implementing fix)
+  - **Property 2: Preservation** - Ordering, catalog behavior, branding and platform constraints
+  - **IMPORTANT**: Follow observation-first methodology. Inputs are limited to cases where isBugCondition is false (ghee ids, ghee names, valid form inputs, config rendering)
+  - Extend `tests/helpers/dom-stub.js` from task 1 so it also runs `js/forms.js`, with `fetch` stubbed for the `endpoint` channel. Keep it dependency-free
+  - Observe on UNFIXED code and record baselines to `tests/fixtures/baseline.json` (generated once by `tests/helpers/record-baseline.js`, then committed):
+    - Order list: state and `toLines()` output for seeded sequences of `add`, `set`, `changeUnit` and `remove` on the 21 ghee ids with valid and invalid units and quantities
+    - Search and sort: matching ghee product ids and order for seeded queries (substrings of ghee names and descriptions, random case and accents, up to 80 characters) across every sort key
+    - Forms: validation errors and summary or message bodies for seeded valid and invalid name, phone, email, area and message values on channels `none`, `whatsapp`, `mailto` and `endpoint`
+    - `art(product, variant)` data URLs for the 21 ghee products and variants 0–2
+    - Pack options: each `pieces` product offers "Piece", "Pack of 6" and "Pack of 12"; other ghee products offer "250 g", "500 g" and "1 kg"
+    - Static snapshots: brand name, "100% Veg" tagline, logo path, `:root` color tokens, Poppins, `js/config.js` hash, `sitemap.xml` and `robots.txt` URLs, per-page landmarks and heading order, `#signature-title` present, and no JSON-LD while `config.verified` is false
+  - Create `tests/preservation.test.js` with property tests that replay the same seeded inputs and compare with the baseline:
+    - Order list operations and `toLines()` match the baseline (3.4)
+    - Stale list pruning: seeded stored lists mixing ghee ids, removed ids (`kaju-katli`, `sandesh`, `dal-moth`) and random strings; `read()` keeps exactly the valid ghee lines with their unit and quantity, for example `[{id:"kaju-katli",unit:"250 g",qty:2},{id:"gulab-jamun",unit:"Piece",qty:3}]` keeps only Gulab Jamun × 3 (Piece); malformed stored values are ignored without errors (3.3)
+    - `cat` fallback: seeded legacy ids (`premium`, `ghee`, `dry-fruit`, `bengali`, `namkeen`), empty and random strings resolve to `"all"` without throwing and rewrite the URL to `products.html`; a known category id shows only that category. Also run the legacy ids against a ghee-only copy of the unfixed data (legacy categories removed) and assert all 21 ghee sweets show (3.2)
+    - Search and sort results for ghee products match the baseline, and the matching set equals a name/description substring oracle that is accent- and case-insensitive (3.6)
+    - Detail dialog: name, description, pack select, quantity input, add action and focus return for ghee products match the baseline (3.6)
+    - Pack options: `unitRules` loads without throwing, and each ghee product's pack options match the baseline ("Piece", "Pack of 6", "Pack of 12" for `pieces` products; "250 g", "500 g", "1 kg" otherwise) (3.4, 3.6)
+    - Illustrations: `art(product, variant)` returns the baseline data URL for each of the 21 ghee products and variants 0–2 (3.6, 3.13)
+    - Homepage collection: with a `signatureOrder` of valid ghee ids, `initSignature` shows those ids in order (3.6)
+    - Contact and order form validation and delivery match the baseline, including the `?product=` prefill (3.4, 3.5)
+    - Static snapshots match (3.1, 3.7, 3.8, 3.11, 3.12, 3.13); no `<script src>` points outside `js/`, and no `package.json` or framework file exists
+    - Accessibility structure: every page keeps `:focus-visible` styles, accessible names on buttons and links, dialog and lightbox focus-return code paths, and no hover-only controls (3.9)
+    - Layout guard: no fixed widths above 360 px without `min()`/`max-width` in the category bento and header rules (3.10, static check; the browser pass in task 4 covers the rest)
+  - Note in the test file which assertions compare against category-count-dependent values (catalog chip count and labels, picker group count and pills, category headings and taglines, result-count wording) and exclude them, since those change by design
+  - Run `node --test tests/preservation.test.js` on UNFIXED code
+  - **EXPECTED OUTCOME**: Tests PASS (this confirms baseline behavior to preserve)
+  - Mark task complete when tests are written, run, and passing on unfixed code
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13_
+
+- [ ] 3. Fix for site presenting a general sweets-and-namkeen shop instead of a ghee-sweets shop
+
+  - [x] 3.1 Regroup the catalog data in `js/data.js`
+    - Replace the five categories with `ghee-laddoo` (Laddoos, "Round sweets bound with ghee."), `ghee-dry` (Barfi, pak & dry sweets, "Fudges, pak and flaky sweets made with ghee.") and `ghee-syrup` (Syrup sweets, "Ghee-fried sweets finished in syrup."), each with `image: "assets/images/category-ghee-sweets.svg"`, `units: ["250 g", "500 g", "1 kg"]` and `art: "ghee"`, using the membership table in design.md; taglines make no ghee source, purity or certification claims
+    - Keep only the 21 ghee products in their current order; keep `id`, `name`, `description` and flags unchanged; change only `category` to the group id
+    - Remove the `nuts` and `weight` lists from `unitRules` and the unused `UNITS.nuts`; keep the `pieces` list and the throwing check
+    - Set `signatureOrder` to `[]` with a comment that ids go here only after the client confirms signature items
+    - Remove the four non-ghee gallery entries; keep shop interior, preparation, ghee sweets, celebration and kitchen entries with "(demo illustration)" captions
+    - Update the header comment (lines 1–20) to describe ghee groups
+    - _Bug_Condition: isBugCondition(input) where input IS DataRecord and (product id NOT IN GHEE_IDS, or category id IN REMOVED_CATEGORIES ∪ {"ghee"}, or signatureOrder/unitRule references a non-ghee id, or gallery caption contains OFF_OFFER_TERMS)_
+    - _Expected_Behavior: set(ids(data.products)) = GHEE_IDS AND all categories start with "ghee-" AND every product's category resolves AND all signatureOrder ids IN GHEE_IDS_
+    - _Preservation: ghee product ids, names, descriptions, flags, order and units unchanged (3.3, 3.6)_
+    - _Requirements: 2.2, 2.4, 2.7, 2.8, 3.3, 3.6_
+
+  - [x] 3.2 Update rendering logic in `js/products.js`
+    - In `art()`, pick the drawing family with `getCategory(product.category)?.art || "ghee"`; keep only the ghee palette and shape list `["ball", "square", "ball", "diamond"]`; remove the `namkeen`, `bengali`, `dry-fruit` and `premium` branches so each ghee illustration stays identical
+    - In `initSignature`, use valid `data.signatureOrder` ids, otherwise the first eight `data.products`; keep `productCard`, which adds "Signature" only when `p.signature` is true
+    - In `initCatalogue`, build chips from categories that have at least one product; rename the "all" option and the full-collection heading to "All ghee sweets"; change the fallback tagline to "Every sweet we make is a ghee sweet."; keep the result-count wording; leave the `options.some(...)` `cat` fallback unchanged
+    - In `apply()`, wrap the DOM update in `document.startViewTransition` only when the API exists and `prefers-reduced-motion: no-preference` matches, skipping it on first load; otherwise update instantly
+    - No logic change in `js/cart.js`; confirm `initPicker` builds three groups with the first open, and `isValid`/`read()` still prune removed ids
+    - _Bug_Condition: isBugCondition(input) where input IS Interaction and catalogFilter.chipCount > 1 + count(nonEmptyGheeGroups), or rendered strings contain OFF_OFFER_TERMS_
+    - _Expected_Behavior: all chips are "all" or a non-empty ghee group; all picker rows IN GHEE_IDS; art() output unchanged for ghee products_
+    - _Preservation: cat fallback, search, sort, detail dialog, order list and picker behavior unchanged (3.2, 3.3, 3.6)_
+    - _Requirements: 2.2, 2.4, 2.5, 2.8, 2.10, 3.2, 3.3, 3.6_
+
+  - [x] 3.3 Edit header, footer and metadata on all 8 HTML pages
+    - Pages: `index.html`, `about.html`, `products.html`, `gallery.html`, `quality.html`, `order.html`, `contact.html`, `404.html`
+    - Replace `<li class="nav-dropdown">` (trigger button and `#products-menu`) with `<li><a href="products.html">Ghee sweets</a></li>`; add `aria-current="page"` on products.html; keep the collapse-to-menu behavior (`initNav` already handles an empty `triggers` list, so no JS change)
+    - Footer "Products" list: "All ghee sweets" (`products.html`), "Laddoos" (`?cat=ghee-laddoo`), "Barfi, pak & dry sweets" (`?cat=ghee-dry`), "Syrup sweets" (`?cat=ghee-syrup`)
+    - Footer description: "100% veg ghee sweets for the Kathmandu Valley, made with care for everyday treats and celebrations."
+    - Rewrite `<title>`, `meta[name=description]`, `og:title` and `og:description` to describe a ghee-sweets shop in the Kathmandu Valley, keeping "Madhuram Sweets & Snacks" (see the index.html example in design.md)
+    - _Bug_Condition: isBugCondition(input) where input IS RenderedPage with links to removed categories, headerProductNav.levels > 1, or metadata containing OFF_OFFER_TERMS_
+    - _Expected_Behavior: headerProductNav.levels = 1 AND no link targets a REMOVED_CATEGORY AND stripBrand(metadata) contains no OFF_OFFER_TERMS and states "ghee sweets"_
+    - _Preservation: URLs, landmarks, heading order, brand name, tagline, logo and config-driven contact details unchanged (3.1, 3.7, 3.8, 3.9)_
+    - _Requirements: 2.1, 2.5, 2.6, 2.10, 3.1, 3.7, 3.8, 3.9_
+
+  - [ ] 3.4 Rewrite page copy, homepage layout and gallery markup
+    - index.html hero: state that the shop makes ghee sweets
+    - index.html `.bento-categories`: three cards, first `cat-card--overlay` for `ghee-syrup`, then two `cat-card--split` cards for `ghee-laddoo` and `ghee-dry`, each with short ghee copy and an "Explore …" CTA; replace "From silver-leafed kaju katli to crisp namkeen" with ghee copy
+    - index.html collection: copy "A selection from our ghee sweets."; keep the section and `#signature-title`
+    - index.html story, values and final CTA: remove namkeen, chhena and dry fruit wording
+    - index.html gallery preview: replace non-ghee thumbnails with ghee, kitchen or shop images; update `data-caption`, `aria-label` and `alt`, keeping "(demo illustration)"
+    - about.html (story and timeline), products.html (tagline and noscript text), quality.html, gallery.html (static figures, captions, alt), order.html (intro and `#picker-search` placeholder "e.g. laddoo"), contact.html and 404.html: describe ghee sweets only
+    - On every page, add no unverified claims such as founding year, ghee source, purity or certifications; review the already edited pages for any such claim
+    - _Bug_Condition: isBugCondition(input) where input IS RenderedPage and stripBrand(text) contains OFF_OFFER_TERMS, uses nonGheeCategoryImages, or does not state "ghee sweets"_
+    - _Expected_Behavior: stripBrand(pageText) contains none of OFF_OFFER_TERMS AND states "ghee sweets" AND all placeholder images keep "demo illustration"_
+    - _Preservation: section structure, heading order, `#signature-title`, demo labels and no structured data while `config.verified` is false (3.1, 3.13)_
+    - _Requirements: 2.3, 2.4, 2.5, 2.7, 2.8, 2.10, 3.1, 3.13_
+
+  - [x] 3.5 Apply motion tokens, three-card bento and reduced-motion guards in CSS
+    - Follow `.agents/skills/modern-web-guidance/guides/ui-behaviors/motion.md` and the accessibility guides
+    - `css/style.css`: next to `--ease`, add `--dur-hover: 180ms`, `--dur-menu: 240ms`, `--dur-card: 300ms`, `--dur-reveal: 600ms`; replace literal transition durations with these tokens
+    - `css/style.css`: replace the five `.bento-categories` `nth-child` rules with child 1 `grid-column: 1 / span 7; grid-row: span 2` and children 2–3 `grid-column: 8 / span 5`; check tablet and mobile rules so the cards stack without overflow at 360 px
+    - `css/style.css`: move image `scale` on hover for `.cat-card`, `.product-card`, `.gallery-thumb` and `.masonry` into `@media (hover: hover) and (prefers-reduced-motion: no-preference)`; keep shadow, border and color changes in the plain `@media (hover: hover)` block
+    - `css/animations.css`: `hero-in` 0.8 s → `var(--dur-reveal)`; `hero-photo-in` 1.4 s → 650 ms; `.hero-seal` 0.9 s → 600 ms; view-transition fade-out `ease-in` → `var(--ease)` at 220 ms; move menu (200 ms), dialog (280 ms), toast (300 ms) and reveal (600 ms) durations to tokens
+    - In both files, replace any remaining easing other than `var(--ease)` (for example `ease` or `ease-in`, such as the dialog backdrop transition) so every transition and animation uses `var(--ease)`
+    - `css/animations.css`: give the catalog grid `view-transition-name: catalogue-grid` and add a 240 ms `::view-transition-group(catalogue-grid)` rule with `var(--ease)` inside the existing `no-preference` block
+    - Leave the unused dropdown CSS in place
+    - _Bug_Condition: isBugCondition(input) where input IS Interaction and motion.durationMs < 160 or > 650, easing ≠ var(--ease), or spatial motion runs under prefers-reduced-motion: reduce_
+    - _Expected_Behavior: ALL motion 160 ≤ durationMs ≤ 650 AND easing = var(--ease) AND ALL spatial motion guardedBy(prefers-reduced-motion: no-preference)_
+    - _Preservation: color tokens, Poppins, focus styles and overflow-free layouts from 360 to 1920 px unchanged (3.7, 3.9, 3.10)_
+    - _Requirements: 2.3, 2.10, 3.7, 3.9, 3.10_
+
+  - [x] 3.6 Update `README.md`, `image.md` and root `design.md`
+    - README.md: title "ghee sweets website"; replace "Bengali products" in the demo-content note with "ghee groups and product details"
+    - image.md: remove Premium, Dry Fruit, Bengali and Namkeen category and product briefs; keep briefs for the 21 ghee sweets, one image per ghee group, the hero, shop, kitchen and ghee preparation
+    - design.md: add the "Ghee sweets only" project override; Section 8, Section 3 example list → ghee groups; Section 9 "Products (ghee sweets)" with ghee group filters only for groups with products; Section 14 remove `sweets.html`, `namkeen.html`, `product-detail.html` and list the real pages; Section 7.1 plain link for a single product line; Section 10 note the 160–650 ms range and motion tokens
+    - Keep the orange-and-green palette, Poppins, Bento layout, Kathmandu Valley only and no invented claims unchanged in design.md
+    - _Bug_Condition: isBugCondition(input) where input IS Document and requests content or photos for REMOVED_CATEGORIES or lists "namkeen.html"_
+    - _Expected_Behavior: documents list only images and content for the ghee-sweets catalog_
+    - _Preservation: design.md tokens, palette and rules other than the listed sections unchanged (3.7)_
+    - _Requirements: 2.9, 3.7_
+
+  - [ ] 3.7 Verify bug condition exploration test now passes
+    - **Property 1: Expected Behavior** - Ghee-only catalog, content and simplified motion
+    - **IMPORTANT**: Re-run the SAME test from task 1. Do NOT write a new test
+    - The test from task 1 encodes the expected behavior; when it passes, the expected behavior is satisfied
+    - Run `node --test tests/bug-condition.test.js`
+    - **EXPECTED OUTCOME**: Test PASSES (confirms the bug is fixed)
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 2.10_
+
+  - [ ] 3.8 Verify preservation tests still pass
+    - **Property 2: Preservation** - Ordering, catalog behavior, branding and platform constraints
+    - **IMPORTANT**: Re-run the SAME tests from task 2. Do NOT write new tests
+    - Run `node --test tests/preservation.test.js`
+    - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
+    - Confirm all tests still pass after the fix
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13_
+
+- [ ] 4. Checkpoint - Ensure all tests pass
+  - Run `node --test tests/` and confirm every test passes
+  - Ask the user to do the manual browser pass from the Integration Tests in design.md:
+    - The 8 pages at 1920, 1440, 1024, 768, 430, 390 and 360 px: no horizontal overflow, header link "Ghee sweets", footer lists the ghee groups, clean three-card bento
+    - Full flow: homepage → category card → filtered catalog → detail dialog → add to order list → order page → submit with channel `none`; the status message is honest and focus returns to the trigger after the dialog closes
+    - Keyboard and screen reader: Tab through the header (no dropdown), the chips, the dialog and the gallery lightbox; focus is visible, names are accessible and the result count is announced
+    - Reduced motion: with `prefers-reduced-motion: reduce` emulated, no element moves or scales on load, scroll, hover or filter change, and all content is visible; with motion allowed, hero, reveal, menu, dialog and filter transitions use `--ease` and finish within 650 ms
+    - The browser console shows no errors
+  - Confirm `sitemap.xml` and `robots.txt` are valid and unchanged from the unfixed versions
+  - Ask the user to confirm the proposed ghee group names and membership with the client
+  - Ensure all tests pass, ask the user if questions arise
+
+- [ ] 5. (Optional, requires user approval) Delete unused non-ghee category SVGs
+  - Only after the user explicitly approves, because deletion is hard to reverse
+  - Confirm with a workspace search that `category-premium-sweets.svg`, `category-dry-fruit-sweets.svg`, `category-bengali-sweets.svg` and `category-namkeen.svg` in `assets/images/` are no longer referenced
+  - Delete the four files, then re-run `node --test tests/`
+  - _Requirements: 2.7_

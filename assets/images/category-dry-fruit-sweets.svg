@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 900" width="1200" height="900">
+  <title>Demo illustration: kaju katli and pistachio rolls on a silver tray</title>
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.3" r="0.9"><stop offset="0" stop-color="#FBF4E8"/><stop offset="1" stop-color="#E9DCC6"/></radialGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F2EE"/><stop offset="0.5" stop-color="#D3CFC7"/><stop offset="1" stop-color="#A9A39A"/></linearGradient>
+    <linearGradient id="katli" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6EAD2"/><stop offset="1" stop-color="#D6BE94"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="4"/></filter>
+    <g id="k">
+      <ellipse cx="3" cy="12" rx="54" ry="12" fill="#5A4636" opacity="0.25" filter="url(#blur2)"/>
+      <polygon points="0,-30 56,0 0,30 -56,0" fill="url(#katli)" stroke="#C7AE84" stroke-width="1.6"/>
+      <polygon points="0,-30 56,0 0,-8" fill="#FFFFFF" opacity="0.55"/>
+    </g>
+    <g id="r">
+      <ellipse cx="3" cy="28" rx="44" ry="10" fill="#5A4636" opacity="0.25" filter="url(#blur2)"/>
+      <ellipse rx="46" ry="33" fill="url(#katli)" stroke="#BFA06F" stroke-width="1.6"/>
+      <ellipse rx="30" ry="21" fill="#8FA36A"/>
+      <ellipse rx="15" ry="10" fill="#6E8450"/>
+    </g>
+    <path id="cashew" d="M0 0c-14-18 4-36 22-26 10 6 4 16-4 12-8-3-12 4-6 12z" fill="#E7D2A8" stroke="#C7A970" stroke-width="1.5"/>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <ellipse cx="610" cy="640" rx="470" ry="110" fill="#5A4636" opacity="0.18" filter="url(#blur)"/>
+  <ellipse cx="600" cy="520" rx="480" ry="230" fill="url(#silver)"/>
+  <ellipse cx="600" cy="510" rx="440" ry="204" fill="#ECE9E3"/>
+  <ellipse cx="600" cy="510" rx="420" ry="190" fill="none" stroke="#B9B2A6" stroke-width="2" stroke-dasharray="3 10"/>
+  <g>
+    <use href="#k" xlink:href="#k" x="330" y="440"/><use href="#k" xlink:href="#k" x="430" y="410"/><use href="#k" xlink:href="#k" x="530" y="390"/>
+    <use href="#k" xlink:href="#k" x="380" y="500"/><use href="#k" xlink:href="#k" x="480" y="470"/><use href="#k" xlink:href="#k" x="580" y="450"/>
+    <use href="#k" xlink:href="#k" x="430" y="560"/><use href="#k" xlink:href="#k" x="530" y="530"/>
+  </g>
+  <g>
+    <use href="#r" xlink:href="#r" x="720" y="440"/><use href="#r" xlink:href="#r" x="820" y="480"/><use href="#r" xlink:href="#r" x="740" y="540"/><use href="#r" xlink:href="#r" x="860" y="580"/>
+  </g>
+  <use href="#cashew" xlink:href="#cashew" x="160" y="780"/>
+  <use href="#cashew" xlink:href="#cashew" x="1020" y="760" transform="rotate(30 1020 760)"/>
+  <use href="#cashew" xlink:href="#cashew" x="1080" y="820" transform="rotate(-20 1080 820)"/>
+  <g fill="#8FA36A"><ellipse cx="220" cy="820" rx="10" ry="5"/><ellipse cx="980" cy="200" rx="10" ry="5" transform="rotate(30 980 200)"/><ellipse cx="200" cy="180" rx="10" ry="5" transform="rotate(-30 200 180)"/></g>
+  <text x="1176" y="880" text-anchor="end" font-family="Arial, sans-serif" font-size="20" fill="#786B61">Demo illustration</text>
+</svg>

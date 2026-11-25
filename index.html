@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Madhuram Sweets &amp; Snacks | Sweets &amp; Pure Veg Restaurant in Kathmandu</title>
+  <meta name="description" content="100% pure veg sweets, hearty thalis, quick bites, biryani, chaats, south indian and breakfast delicacies in Kathmandu. Browse our full menu and order online.">
+  <meta name="theme-color" content="#24543A">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Madhuram Sweets &amp; Snacks">
+  <meta property="og:title" content="Madhuram Sweets &amp; Snacks | Sweets &amp; Pure Veg Restaurant in Kathmandu">
+  <meta property="og:description" content="100% pure veg sweets, hearty thalis, quick bites, biryani, chaats, south indian and breakfast delicacies in Kathmandu. Browse our full menu and order online.">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/poppins-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="expect" href="#hero-title" blocking="render">
+  <script defer src="js/config.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/cart.js"></script>
+  <script defer src="js/products.js"></script>
+  <script defer src="js/gallery.js"></script>
+  <script defer src="js/hero-shader.js"></script>
+</head>
+<body>
+  <a class="skip-link visually-hidden" href="#main">Skip to main content</a>
+
+  <div class="utility-bar">
+    <div class="container utility-inner">
+      <p class="utility-note">Serving the Kathmandu Valley</p>
+      <ul class="utility-list" role="list">
+        <li data-config-item><a data-config-tel href="tel:+9779768617279"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span data-config="contact.phoneDisplay">9768617279</span></a></li>
+        <li class="utility-email" data-config-item><a data-config-mail href="mailto:msweetssnacks@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span data-config="contact.email">msweetssnacks@gmail.com</span></a></li>
+        <li class="utility-hours"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-config="hoursSummary">Open daily · 9 am – 9 pm</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/images/madhuram-logo.png" alt="" width="480" height="240">
+        <span class="brand-text"><span class="brand-name" data-config="brand.name">Madhuram Sweets &amp; Snacks</span><span class="brand-tag" data-config="brand.tagline">100% Veg</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="site-menu" popover="auto">
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about.html">About us</a></li>
+          <li><a href="products.html">Menu</a></li>
+          <li><a href="quality.html">Our quality</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li class="menu-cta"><a class="btn btn-primary" href="order.html">Order now</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="order.html" data-order-link aria-label="Order list, empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="badge" data-order-count hidden>0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- A. Hero -->
+    <section class="hero surface-dark" aria-labelledby="hero-title">
+      <!-- Animated mesh-gradient backdrop (js/hero-shader.js). The CSS
+           gradient underneath is the fallback when WebGL is unavailable. -->
+      <div class="hero-backdrop" aria-hidden="true">
+        <canvas class="hero-canvas" data-hero-shader></canvas>
+        <div class="hero-scrim"></div>
+      </div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            <span class="hero-line hero-line--shine">Every dish</span>
+            <span class="hero-line hero-line--bold">tells</span>
+            <em class="hero-line hero-line--soft">a story.</em>
+          </h1>
+          <p class="lead">Authentic sweets, fresh snacks, hearty thalis, biryanis and South Indian delicacies, crafted with pure vegetarian care and made to bring people together.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="products.html">Explore our menu <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-glass" href="order.html">Order now</a>
+          </div>
+        </div>
+        <div class="hero-badge" aria-hidden="true">
+          <span class="hero-badge-ring"></span>
+          <svg class="hero-badge-text" viewBox="0 0 100 100">
+            <defs><path id="hero-badge-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs>
+            <text><textPath href="#hero-badge-circle" textLength="238">Handcrafted sweets • 100% Veg • Authentic taste •</textPath></text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. Explore categories -->
+    <section class="section" aria-labelledby="collection-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Explore our collection</p>
+            <h2 id="collection-title">Something delicious for <em>every moment</em></h2>
+            <p>From festival sweets to hearty meals, explore our complete selection of authentic dishes and treats.</p>
+          </div>
+          <a class="text-link" href="products.html">View full menu <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <ul class="bento bento-categories" role="list">
+          <li class="reveal" style="--i:0">
+            <a class="cat-card cat-card--overlay" href="products.html?cat=sweets">
+              <article>
+                <img src="assets/images/Sweets/Kaju%20Katli.png" alt="Traditional Indian sweets assortment" width="1200" height="900" loading="lazy">
+                <div class="cat-card__text">
+                  <p class="eyebrow">Handcrafted Sweets</p>
+                  <h3>Traditional Sweets</h3>
+                  <p>Kaju Katli, Besan Laddu, Motichur, Kala Jamun, Peda, Barfi, and freshly fried Jalebi.</p>
+                  <span class="cat-card__cta">Explore sweets <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="reveal" style="--i:1">
+            <a class="cat-card cat-card--split cat-card--cream" href="products.html?cat=thali">
+              <article>
+                <img src="assets/images/Thali/Indian%20Thali.png" alt="Authentic Indian Thali spread" width="1200" height="900" loading="lazy">
+                <div class="cat-card__text">
+                  <h3>Thali &amp; Meals</h3>
+                  <p>Hearty Indian Thali, Madhurum Special Thali, aromatic Biryanis, and rich curries.</p>
+                  <span class="cat-card__cta">Explore thali <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                </div>
+              </article>
+            </a>
+          </li>
+          <li class="reveal" style="--i:2">
+            <a class="cat-card cat-card--split cat-card--sage" href="products.html?cat=quick-bites">
+              <article>
+                <img src="assets/images/Quick%20Bites/samosa.png" alt="Crispy golden samosas and snacks" width="1200" height="900" loading="lazy">
+                <div class="cat-card__text">
+                  <h3>Snacks, Chaats &amp; South Indian</h3>
+                  <p>Crispy samosas, kachori, pakodas, dahi puri chaats, and hot butter masala dosas.</p>
+                  <span class="cat-card__cta">Explore snacks <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                </div>
+              </article>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- D. Signature collection -->
+    <section class="section section--deep" aria-labelledby="signature-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Signature collection</p>
+            <h2 id="signature-title">House favourites</h2>
+            <p>A curated selection of our most loved sweets, thalis, savoury snacks and dosas.</p>
+          </div>
+          <a class="text-link" href="products.html">See the full menu <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <ul class="product-grid product-grid--signature" role="list" data-signature-grid></ul>
+        <noscript><p class="noscript-note">Turn on JavaScript to see the signature collection, or <a href="products.html">browse the catalogue</a>.</p></noscript>
+      </div>
+    </section>
+
+    <!-- E. Our story -->
+    <section class="section" aria-labelledby="story-title">
+      <div class="container story-grid">
+        <div class="story-media reveal">
+          <img src="assets/images/our%20story.png" alt="Hands shaping a motichoor laddu in the kitchen, with a plate of finished laddus beside a brass bowl of ghee" width="1122" height="1402" loading="lazy">
+          <p class="story-badge" data-placeholder>Family recipes, made by hand</p>
+        </div>
+        <div class="story-copy reveal" style="--i:1">
+          <p class="eyebrow">Our story</p>
+          <h2 id="story-title">A kitchen built on tradition and trust</h2>
+          <div class="prose" data-placeholder>
+            <p>This is where the shop's own story will be told: who started it, where, and the recipes that have been handed down. Replace this text with the verified founding story.</p>
+            <p>Every sweet and dish begins with careful preparation, patient cooking and the simple goal of authentic, delicious food that families are proud to share.</p>
+          </div>
+          <a class="btn btn-secondary" href="about.html">Discover our story</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- F. Why choose us -->
+    <section class="section section--cream" aria-labelledby="why-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Why customers choose us</p>
+            <h2 id="why-title">Care in every step</h2>
+          </div>
+        </div>
+        <ul class="bento value-grid" role="list">
+          <li class="reveal" style="--i:0">
+            <article class="value-card value-card--green value-card--photo surface-dark">
+              <img class="value-card__img" src="assets/images/Quality%20Ingredients.png" alt="Pure ingredients, fresh dairy and aromatic spices" width="1330" height="1182" loading="lazy">
+              <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 4h10l3 6-8 10L4 10z"/><path d="M4 10h16M12 20 9 10l3-6 3 6z"/></svg></span>
+              <div>
+                <h3>Quality ingredients</h3>
+                <p>Pure ingredients, fresh paneer, and authentic spices chosen with care for true restaurant quality.</p>
+              </div>
+              <a class="text-link" href="quality.html">Our quality approach</a>
+            </article>
+          </li>
+          <li class="reveal" style="--i:1">
+            <article class="value-card value-card--sage value-card--photo">
+              <img class="value-card__img" src="assets/images/Traditional%20Recipes.png" alt="Traditional recipes and authentic culinary heritage" width="2243" height="701" loading="lazy">
+              <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span>
+              <h3>Traditional recipes</h3>
+              <p>Authentic recipes for sweets, rich thalis, biryanis, and South Indian dishes made the traditional way.</p>
+            </article>
+          </li>
+          <li class="reveal" style="--i:2">
+            <article class="value-card value-card--photo">
+              <img class="value-card__img" src="assets/images/Careful%20Preparation.png" alt="Fresh food being prepared with care in the kitchen" width="1699" height="926" loading="lazy">
+              <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v3M5 6l2 2M19 6l-2 2"/><path d="M4 14a8 8 0 0 0 16 0z"/><path d="M3 14h18"/></svg></span>
+              <h3>Careful preparation</h3>
+              <p>Fresh cooking in small batches, maintaining high hygiene and authentic taste at every step.</p>
+            </article>
+          </li>
+          <li class="reveal" style="--i:3">
+            <article class="value-card value-card--cream value-card--photo">
+              <img class="value-card__img" src="assets/images/Friendly%20Service.png" alt="Shop assistant smiling as she hands a fresh order to a customer" width="1448" height="1086" loading="lazy">
+              <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M8 13a4 4 0 0 0 8 0"/><path d="M9 9h.01M15 9h.01"/></svg></span>
+              <h3>Friendly service</h3>
+              <p>Warm hospitality and assistance choosing sweets boxes, lunch thalis, and celebration meals.</p>
+            </article>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- I. Gallery preview -->
+    <section class="section section--deep" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Gallery</p>
+            <h2 id="gallery-title">From our kitchen and counter</h2>
+          </div>
+          <a class="text-link" href="gallery.html">Open the full gallery <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <ul class="gallery-bento" role="list" data-lightbox-group>
+          <li class="reveal" style="--i:0"><button class="gallery-thumb" type="button" data-lightbox-src="assets/images/gallery-laddu-bowls.jpg" data-caption="Assorted laddus in steel containers" data-w="1300" data-h="1008" aria-label="Open image: assorted laddus"><img src="assets/images/gallery-laddu-bowls.jpg" alt="Steel containers filled with different kinds of laddus, seen from above" width="1300" height="1008" loading="lazy"></button></li>
+          <li class="reveal" style="--i:1"><button class="gallery-thumb" type="button" data-lightbox-src="assets/images/gallery-jalebi-frying.jpg" data-caption="Jalebi frying in a large pan" data-w="1600" data-h="750" aria-label="Open image: frying jalebi"><img src="assets/images/gallery-jalebi-frying.jpg" alt="Jalebi batter frying in hot oil in a large iron pan" width="1600" height="750" loading="lazy"></button></li>
+          <li class="reveal" style="--i:2"><button class="gallery-thumb" type="button" data-lightbox-src="assets/images/gallery-laddu-tray.jpg" data-caption="Motichoor laddus topped with almond slivers" data-w="760" data-h="1000" aria-label="Open image: motichoor laddus"><img src="assets/images/gallery-laddu-tray.jpg" alt="Orange laddus topped with almond slivers on a yellow tray" width="760" height="1000" loading="lazy"></button></li>
+          <li class="reveal" style="--i:3"><button class="gallery-thumb" type="button" data-lightbox-src="assets/images/gallery-jalebi-tray.jpg" data-caption="Freshly made jalebi" data-w="1600" data-h="750" aria-label="Open image: fresh jalebi"><img src="assets/images/gallery-jalebi-tray.jpg" alt="A heaped tray of freshly made jalebi" width="1600" height="750" loading="lazy"></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- J. Final CTA -->
+    <section class="section" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-panel surface-dark">
+          <svg class="cta-ornament cta-ornament--a" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="44"/></g></svg>
+          <svg class="cta-ornament cta-ornament--b" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="96"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="44"/></g></svg>
+          <p class="eyebrow">Order &amp; enquiries</p>
+          <h2 id="cta-title">Make every celebration <em>sweeter.</em></h2>
+          <p>Build your sweets and dishes order list online and our team will confirm quantities, packing and collection or delivery with you.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="order.html">Order your favourites</a>
+            <a class="btn btn-outline-light" href="contact.html">Contact our team</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer surface-dark">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img class="brand-logo" src="assets/images/madhuram-logo.png" alt="" width="480" height="240">
+            <span class="brand-text"><span class="brand-name" data-config="brand.name">Madhuram Sweets &amp; Snacks</span><span class="brand-tag" data-config="brand.tagline">100% Veg</span></span>
+          </a>
+          <p>100% pure veg sweets, snacks, and restaurant delicacies for the Kathmandu Valley, made with care for everyday dining and celebrations.</p>
+          <ul class="social-list" role="list">
+            <li><a data-social="tiktok" href="https://www.tiktok.com/" aria-label="TikTok" rel="noopener" target="_blank"><svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M448 209.9a210.1 210.1 0 0 1-122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg></a></li>
+            <li><a data-social="facebook" href="https://www.facebook.com/" aria-label="Facebook" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a></li>
+            <li><a data-social="youtube" href="https://www.youtube.com/" aria-label="YouTube" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg></a></li>
+          </ul>
+        </div>
+        <nav aria-label="Quick links">
+          <h2>Quick links</h2>
+          <ul class="footer-links" role="list">
+            <li><a href="about.html">About us</a></li>
+            <li><a href="quality.html">Our quality</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="order.html">Order now</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Product categories">
+          <h2>Menu Categories</h2>
+          <ul class="footer-links" role="list">
+            <li><a href="products.html">All menu items</a></li>
+            <li><a href="products.html?cat=sweets">Sweets</a></li>
+            <li><a href="products.html?cat=thali">Thali</a></li>
+            <li><a href="products.html?cat=quick-bites">Quick Bites</a></li>
+            <li><a href="products.html?cat=biryani">Biryani</a></li>
+            <li><a href="products.html?cat=chaats">Chaats</a></li>
+            <li><a href="products.html?cat=south-indian">South Indian</a></li>
+          </ul>
+        </nav>
+        <div>
+          <h2>Visit &amp; contact</h2>
+          <address class="footer-contact">
+            <span data-config="contact.address">Dhungedhara, Kathmandu</span>
+            <span data-config-item><a data-config-tel data-config-phones href="tel:+9779768617279" data-config="contact.phoneDisplay">9768617279</a></span>
+            <span data-config-item><a data-config-mail href="mailto:msweetssnacks@gmail.com" data-config="contact.email">msweetssnacks@gmail.com</a></span>
+          </address>
+          <dl class="footer-hours" data-config-hours style="margin-block-start:1rem"><dt>Monday – Saturday</dt><dd>9:00 am – 9:00 pm</dd><dt>Sunday</dt><dd>10:00 am – 8:00 pm</dd></dl>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-year>2026</span> <span data-config="brand.name">Madhuram Sweets &amp; Snacks</span>. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="icon-btn back-to-top" href="#main" data-back-to-top aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></a>
+</body>
+</html>

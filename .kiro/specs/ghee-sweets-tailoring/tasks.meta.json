@@ -1,0 +1,229 @@
+{
+  "pbtResults": {
+    "1. Write bug condition exploration test": {
+      "status": "passed",
+      "failingExample": "Unfixed code fails 12 of 15 checks (seed=12345), as expected. Data: 83 products with 62 outside GHEE_IDS (bahubali-sandwich, kaju-katli, shahi-rasmalai, rasgulla, dal-moth, kaju-roasted...). Categories premium, ghee, dry-fruit, bengali, namkeen (none start with \"ghee-\"). signatureOrder lists 8 non-ghee ids (shahi-rasmalai, bahubali-sandwich, badam-caramel...). 4 gallery entries use non-ghee images/captions (\"Dry fruit sweets\", \"Bengali sweets\", \"Namkeen\", \"Premium sweets\"). Pages: 71 off-offer copy hits, e.g. products.html meta description \"Browse premium sweets, ghee sweets, dry fruit sweets, Bengali sweets and namkeen...\", index.html title \"... | 100% Veg Sweets & Namkeen in Kathmandu\", alt \"Kaju katli on a silver tray (demo illustration)\", \"From silver-leafed kaju katli to crisp namkeen...\". 32 links to products.html?cat=premium|dry-fruit|bengali|namkeen (4 per page x 8). li.nav-dropdown + ul#products-menu on all 8 pages. index.html uses the 4 non-ghee category SVGs. Documents: 30 hits (README.md:1 \"sweets & namkeen\", image.md Premium/Dry Fruit/Bengali/Namkeen briefs, design.md:509-513 category list, :586 \"Products / Sweets / Namkeen\", :825 namkeen.html). Motion: hero-in 0.8s, hero-photo-in 1.4s, hero-seal 0.9s, view-transition-old 0.22s ease-in, dialog backdrop 0.28s ease. Unguarded hover scale: .cat-card:hover img, .product-card:hover > img, .gallery-thumb:hover img, .masonry figure button:hover img { scale: 1.04 }. The unitRules edge case passes: it throws \"unitRules: unknown product\".",
+      "lastRunTimestamp": 1795330762585
+    },
+    "2. Write preservation property tests (BEFORE implementing fix)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795331510082
+    },
+    "3.7 Verify bug condition exploration test now passes": {
+      "status": "passed",
+      "lastRunTimestamp": 1795332491516
+    },
+    "3.8 Verify preservation tests still pass": {
+      "status": "passed",
+      "lastRunTimestamp": 1795332533434
+    }
+  },
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330518400
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330533185
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330783546
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519138
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330787801
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331531029
+      }
+    ],
+    "3.1 Regroup the catalog data in `js/data.js`": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519208
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331535054
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331642405
+      }
+    ],
+    "3.2 Update rendering logic in `js/products.js`": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519258
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331646625
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331801353
+      }
+    ],
+    "3.3 Edit header, footer and metadata on all 8 HTML pages": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519306
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331805844
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331960083
+      }
+    ],
+    "3.4 Rewrite page copy, homepage layout and gallery markup": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519344
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795331964700
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332174995
+      }
+    ],
+    "3.5 Apply motion tokens, three-card bento and reduced-motion guards in CSS": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519382
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332179571
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332315617
+      }
+    ],
+    "3.6 Update `README.md`, `image.md` and root `design.md`": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519420
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332320111
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332461305
+      }
+    ],
+    "3.7 Verify bug condition exploration test now passes": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519479
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332465801
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332504037
+      }
+    ],
+    "3.8 Verify preservation tests still pass": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519516
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332504365
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332543771
+      }
+    ],
+    "4. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519554
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332549615
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332618492
+      }
+    ],
+    "5. (Optional, requires user approval) Delete unused non-ghee category SVGs": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795330519602
+      },
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332645831
+      }
+    ],
+    "3. Fix for site presenting a general sweets-and-namkeen shop instead of a ghee-sweets shop": [
+      {
+        "executionId": "fa6c379b-4912-4418-82d2-9896db9a2ffd",
+        "chatSessionId": "sess_51be695f-746d-4c66-96af-8c99d1726b8e",
+        "timestamp": 1795332543847
+      }
+    ]
+  }
+}

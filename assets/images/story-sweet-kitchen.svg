@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" width="900" height="1200">
+  <title>Demo illustration: a brass kadhai of ghee over a flame in a traditional kitchen</title>
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.55" r="0.8"><stop offset="0" stop-color="#6B3A2E"/><stop offset="0.6" stop-color="#1F4A33"/><stop offset="1" stop-color="#132F21"/></radialGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EBC77E"/><stop offset="0.5" stop-color="#B3802F"/><stop offset="1" stop-color="#6E4A16"/></linearGradient>
+    <radialGradient id="ghee" cx="0.45" cy="0.4" r="0.7"><stop offset="0" stop-color="#FFE29A"/><stop offset="1" stop-color="#D9952F"/></radialGradient>
+    <radialGradient id="flame" cx="0.5" cy="0.8" r="0.8"><stop offset="0" stop-color="#FFE7A8"/><stop offset="0.5" stop-color="#F0A23A"/><stop offset="1" stop-color="#C2501E" stop-opacity="0"/></radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <rect x="80" y="80" width="740" height="420" rx="20" fill="none" stroke="#C99543" stroke-opacity="0.18" stroke-width="2"/>
+  <g stroke="#C99543" stroke-opacity="0.2" stroke-width="2"><path d="M80 220h740"/><path d="M80 360h740"/></g>
+  <g fill="#C99543" opacity="0.28"><rect x="140" y="150" width="60" height="70" rx="8"/><rect x="230" y="160" width="50" height="60" rx="8"/><rect x="560" y="140" width="70" height="80" rx="8"/><rect x="660" y="160" width="50" height="60" rx="8"/><rect x="180" y="290" width="80" height="70" rx="8"/><rect x="600" y="300" width="90" height="60" rx="8"/></g>
+  <ellipse cx="450" cy="980" rx="280" ry="60" fill="url(#flame)" filter="url(#blur)"/>
+  <g filter="url(#blur2)" opacity="0.9"><path d="M380 990q20-60 40-20 10-50 30 0 20-60 40-10 20-40 30 30z" fill="#F0A23A"/></g>
+  <rect x="300" y="960" width="300" height="40" rx="10" fill="#2A1A14"/>
+  <path d="M170 700 Q190 930 450 940 Q710 930 730 700 Z" fill="url(#brass)"/>
+  <ellipse cx="450" cy="700" rx="290" ry="80" fill="#C99543"/>
+  <ellipse cx="450" cy="704" rx="262" ry="66" fill="url(#ghee)"/>
+  <g fill="#FFF3D0" opacity="0.6"><circle cx="380" cy="700" r="8"/><circle cx="420" cy="690" r="5"/><circle cx="520" cy="712" r="7"/><circle cx="470" cy="720" r="4"/><circle cx="560" cy="696" r="5"/></g>
+  <path d="M150 700c-40 0-50 30-30 40M750 700c40 0 50 30 30 40" fill="none" stroke="#8C6222" stroke-width="14" stroke-linecap="round"/>
+  <path d="M560 560l-60 160" stroke="#8C6222" stroke-width="12" stroke-linecap="round"/>
+  <ellipse cx="500" cy="722" rx="30" ry="12" fill="#B3802F"/>
+  <g fill="none" stroke="#FFF6EA" stroke-opacity="0.18" stroke-width="5" stroke-linecap="round"><path d="M380 620q-20-40 0-80t0-80"/><path d="M460 610q-20-40 0-80t0-80"/><path d="M540 620q-20-40 0-80t0-80"/></g>
+  <text x="876" y="1180" text-anchor="end" font-family="Arial, sans-serif" font-size="20" fill="#FFF6EA" fill-opacity="0.6">Demo illustration</text>
+</svg>
