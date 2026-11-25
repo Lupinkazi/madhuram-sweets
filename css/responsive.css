@@ -79,9 +79,33 @@
   .gallery-bento > :nth-child(2),
   .gallery-bento > :nth-child(3) { grid-column: span 1; grid-row: span 1; }
   .gallery-bento > :nth-child(4) { grid-column: 1 / -1; grid-row: span 2; }
-  .utility-hours, .utility-email { display: none; }
-  .utility-inner { justify-content: center; }
+  /* Mobile utility bar optimization */
   .utility-note { display: none; }
+  .utility-inner { 
+    justify-content: center; 
+    padding-block: var(--space-3);
+  }
+  .utility-list { 
+    justify-content: center;
+    gap: var(--space-3) var(--space-4);
+  }
+  .utility-list li { flex: 1 1 auto; }
+  .utility-list a, .utility-list span {
+    font-size: 0.75rem;
+    gap: var(--space-1);
+    min-block-size: 1.75rem;
+  }
+  .utility-list svg { 
+    inline-size: 0.875rem; 
+    block-size: 0.875rem; 
+  }
+  /* Stack items vertically on very small screens */
+  .utility-list { 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-2);
+  }
 
   .brand-logo { block-size: 2.5rem; }
   .header-inner > .brand { flex-shrink: 1; min-inline-size: 0; white-space: normal; }
@@ -114,10 +138,27 @@
   .summary-table thead th:nth-child(3), .summary-table td:nth-child(3) { display: none; }
 }
 
+@media (min-width: 480px) and (max-width: 767px) {
+  /* Show utility items in a more compact horizontal layout on medium-small screens */
+  .utility-list { 
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .utility-list li {
+    flex: 0 1 auto;
+  }
+}
+
 @media (max-width: 479px) {
   .trust-list { grid-template-columns: minmax(0, 1fr); gap: 0; padding: var(--space-3); }
   .trust-list li { padding-block: var(--space-1); }
   .trust-list .icon-badge { inline-size: 2.25rem; block-size: 2.25rem; }
+  
+  /* Further optimize utility bar for very small screens */
+  .utility-bar { font-size: 0.75rem; }
+  .utility-list a, .utility-list span {
+    font-size: 0.6875rem;
+  }
 }
 
 @media (max-width: 389px) {
